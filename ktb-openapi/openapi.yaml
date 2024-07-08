@@ -4,7 +4,7 @@ info:
   description: The TOPPAY Krungthai Business Bank Node for Automation Bulk Transfer.
   version: "0.1"
 servers:
-  - url: http://127.0.0.1/bank/KBANK/:3000
+  - url: http://127.0.0.1:3000/bank/KBANK/
 
 paths:
   /start:
@@ -75,42 +75,11 @@ paths:
               schema:
                 allOf:
                   - $ref: "#/components/schemas/defaultResponse"
-                  - type: "object"
-                    properties: 
+                  - type: object
+                    properties:
                       data:
-                        type: object
-                        properties:
-                          tokenUuid: 
-                            type: "string"
-                            example: MemoryTokenStore:ABCDEFG10
-                          pubKeyIndex: 
-                            type: "string"
-                            example: null
-                          pubKey: 
-                            type: "string"
-                            example: null
-                          e2eeSid: 
-                            type: "string"
-                            example: null
-                          serverRandom: 
-                            type: "string"
-                            example: null
-                          oaepHashAlgo: 
-                            type: "string"
-                            example: null
-                          deliveryContact: 
-                            type: "string"
-                            example: XXXXXX5310
-                          otpRefNo: 
-                            type: "string"
-                            example: ABCD1
-                          bulkOrderId: 
-                            type: "string"
-                            example: 2c5dfeb5-7eba-4df4-ac5d-051a6047d1e1
-                          mfaRefId: 
-                            type: "string"
-                            example: e6519f24-4961-4f98-8904-84ca7365bf31
-                
+                        $ref: "#/components/schemas/responseTransferSubmitted"
+
 components:
   schemas:
     Start:
@@ -139,19 +108,19 @@ components:
         Recipient_bank:
           type: string
           description: Code of recipient bank (string).
-          example: ["025"]
+          example: "025"
         Recipient_bank_name_en:
           type: string
           description: Name of recipient in english (string).
-          example: ["VTEC INV GROUP"]
+          example: "VTEC INV GROUP"
         Recipient_bank_acc:
           type: string
           description: Account number of recipient bank (string).
-          example: ["4001346334"]
+          example: "4001346334"
         Transfer_amount:
           type: integer
           description: Amount transfer.
-          example: [20.25]
+          example: 20.25
     pin:
       type: string
       description: Mobile devices pin [6 digit][string].
@@ -238,7 +207,197 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/LoginOTPResp"
-
-        # data:
-        #   type: object
-        #   $ref: '#/components/schemas/LoginOTPResp'
+    responseTransferSubmitted:
+      type: object
+      properties:
+        fileName:
+          type: "string"
+          example: null
+        processingType:
+          type: "object"
+          properties:
+            value:
+              type: "string"
+              example: ONLINE
+            label:
+              type: "string"
+              example: Online Processing
+        transactionType:
+          type: "object"
+          properties:
+            value:
+              type: "string"
+              example: MANUAL
+            label:
+              type: "string"
+              example: Bulk Transfer
+        valueDate:
+          type: "string"
+          example: 2024-07-06
+        recordUploaded:
+          type: "string"
+          example: null
+        recordRemoved:
+          type: "string"
+          example: null
+        totalRecord:
+          type: "integer"
+          example: 1
+        uploadedAmount:
+          type: "string"
+          example: null
+        removedAmount:
+          type: "string"
+          example: null
+        totalAmount:
+          type: "number"
+          example: 20.22
+        totalTransactionFee:
+          type: "integer"
+          example: 5
+        totalNotificationFee:
+          type: "integer"
+          example: 0
+        totalFee:
+          type: "integer"
+          example: 5
+        grandTotalAmount:
+          type: "number"
+          example: 25.22
+        createdDateTime:
+          type: "string"
+          example: 2024-07-06T12:58:32+07:00
+        lastSavedDateTime:
+          type: "string"
+          example: 2024-07-06T12:58:32+07:00
+        packageRefNo:
+          type: "string"
+          example: 20240706029000006281
+        submittedDateTime:
+          type: "string"
+          example: 2024-07-06T12:58:36+07:00
+        accountRefId:
+          type: "string"
+          example: c32d6777-c050-4011-bbe5-dd642e5298d1
+        accountNo:
+          type: "string"
+          example: XXX-X-XX973-1
+        accountName:
+          type: "string"
+          example: null
+        availableBalance:
+          type: "number"
+          example: 201.13
+        currency:
+          type: "string"
+          example: THB
+        totalErrorItem:
+          type: "integer"
+          example: 0
+        bulkStatus:
+          type: "string"
+          example: SUBMITTED
+        payrollType:
+          type: "object"
+          properties:
+            value:
+              type: "string"
+              example: null
+            label:
+              type: "string"
+              example: null
+        recurringEndDate:
+          type: "string"
+          example: null
+        noOfOccurrence:
+          type: "string"
+          example: null
+        frequency:
+          type: "string"
+          example: null
+        lagacyStatus:
+          type: "object"
+          properties:
+            statusCode:
+              type: "string"
+              example: null
+            statusDescription:
+              type: "string"
+              example: null
+        totalUnsuccessfulItem:
+          type: "string"
+          example: null
+        bulkId:
+          type: "string"
+          example: 23998fb4-9e40-4cfa-849e-002b59ac466b
+        items:
+          type: "array"
+          items:
+            type: object
+            properties:
+              bulkItemId:
+                type: "string"
+                example: 486b9ec5-b73f-4a1a-bc2f-184e8955bdac
+              orderId:
+                type: "string"
+                example: 1
+              subService:
+                type: "string"
+                example: Other Bank Account
+              instructionRefNo:
+                type: "string"
+                example: null
+              bulkItemStatus:
+                type: "string"
+                example: Submitted for Processing
+              payerAccountNo:
+                type: "string"
+                example: null
+              payerAccountName:
+                type: "string"
+                example: null
+              itemValueDate:
+                type: "string"
+                example: null
+              payeeAccountNo:
+                type: "string"
+                example: XXX-X-XX633-4
+              payeeAccountName:
+                type: "string"
+                example: VTEC INV GROUP
+              payeeBankName:
+                type: "string"
+                example: Krungsri
+              payeeBankCode:
+                type: "string"
+                example: 025
+              payeeBankLogoUrl:
+                type: "string"
+                example: null
+              netTransferAmount:
+                type: "number"
+                example: 20.22
+              isWithholdingTaxEnabled:
+                type: "boolean"
+                example: false
+              isCompleted:
+                type: "boolean"
+                example: true
+              isSavedAsBeneficiary:
+                type: "boolean"
+                example: false
+              isPromptpay:
+                type: "boolean"
+                example: false
+              errorTooltips:
+                type: "array"
+                example: []
+              legacyErrorMessage:
+                type: "string"
+                example: null
+              payeeNickname:
+                type: "string"
+                example: null
+              payeeAccountNameTh:
+                type: "string"
+                example: บจก. วีเทกส์ ไอเอ็นวี
