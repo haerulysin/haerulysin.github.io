@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/responseLogin"
+                $ref: "#/components/schemas/responseOTPLogin"
   /transfer-otp:
     post:
       summary: Confirm Transfer OTP.
