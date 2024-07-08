@@ -1,0 +1,244 @@
+openapi: 3.0.0
+info:
+  title: Krungthai Business Bank Node
+  description: The TOPPAY Krungthai Business Bank Node for Automation Bulk Transfer.
+  version: "0.1"
+servers:
+  - url: http://127.0.0.1/bank/KBANK/:3000
+
+paths:
+  /start:
+    post:
+      summary: Start Automation Transfer
+      requestBody:
+        description: Start Automation Transfer
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Start"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLogin"
+  /login-otp:
+    post:
+      summary: Putting SMS_OTP while Start Automation Transfer
+      requestBody:
+        description: Start Automation Transfer
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Start"
+                - type: object
+                  properties:
+                    otp:
+                      $ref: "#/components/schemas/otp"
+                    pin:
+                      $ref: "#/components/schemas/pin"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseLogin"
+  /transfer-otp:
+    post:
+      summary: Confirm Transfer OTP.
+      requestBody:
+        description: Confirm transfer OTP, its need additional request body, its mfaRefId get it from /login-otp response when transfer was succed to submit.
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Start"
+                - type: object
+                  properties:
+                    otp:
+                      $ref: "#/components/schemas/otp"
+                    pin:
+                      $ref: "#/components/schemas/pin"
+                    mfaRefId:
+                      type: string
+                      example: "528cd658-3e51-47b6-8c0f-a85d7fffab21"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/defaultResponse"
+                  - type: "object"
+                    properties: 
+                      data:
+                        type: object
+                        properties:
+                          tokenUuid: 
+                            type: "string"
+                            example: MemoryTokenStore:ABCDEFG10
+                          pubKeyIndex: 
+                            type: "string"
+                            example: null
+                          pubKey: 
+                            type: "string"
+                            example: null
+                          e2eeSid: 
+                            type: "string"
+                            example: null
+                          serverRandom: 
+                            type: "string"
+                            example: null
+                          oaepHashAlgo: 
+                            type: "string"
+                            example: null
+                          deliveryContact: 
+                            type: "string"
+                            example: XXXXXX5310
+                          otpRefNo: 
+                            type: "string"
+                            example: ABCD1
+                          bulkOrderId: 
+                            type: "string"
+                            example: 2c5dfeb5-7eba-4df4-ac5d-051a6047d1e1
+                          mfaRefId: 
+                            type: "string"
+                            example: e6519f24-4961-4f98-8904-84ca7365bf31
+                
+components:
+  schemas:
+    Start:
+      type: object
+      properties:
+        companyId:
+          type: string
+          description: Company ID
+          example: COMPANY00
+        username:
+          type: string
+          description: Account Username
+          example: USER00
+        password:
+          type: string
+          description: Account password
+          example: P4ssw0rd!
+
+        recipient:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recipient"
+    Recipient:
+      type: object
+      properties:
+        Recipient_bank:
+          type: string
+          description: Code of recipient bank (string).
+          example: ["025"]
+        Recipient_bank_name_en:
+          type: string
+          description: Name of recipient in english (string).
+          example: ["VTEC INV GROUP"]
+        Recipient_bank_acc:
+          type: string
+          description: Account number of recipient bank (string).
+          example: ["4001346334"]
+        Transfer_amount:
+          type: integer
+          description: Amount transfer.
+          example: [20.25]
+    pin:
+      type: string
+      description: Mobile devices pin [6 digit][string].
+      example: "123456"
+    otp:
+      type: string
+      description: Transfer or Login OTP [6 digit][string][SMS_OTP].
+      example: "123456"
+    LoginOTPResp:
+      type: "object"
+      properties:
+        tokenUuid:
+          type: "string"
+          example: "MemoryTokenStore:Z9tU5aoOaD"
+        deliveryMethod:
+          type: "string"
+          example: OTP_SMS
+        deliveryContact:
+          type: "string"
+          example: XXXXXX5310
+        otpRefNo:
+          type: "string"
+          example: XXXXXX5319
+        transactionToken:
+          type: "string"
+          example: 23544a1b-ceae-4888-b836-814db2965081
+        token:
+          type: "string"
+          example: 2NmpRBHZzS4el9CChGCTQWhtL4ttcF1w
+        queryPath:
+          type: "string"
+          example: "KBANK:Auth:Login"
+    defaultResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "valid"
+        message:
+          type: string
+          example: "SUCCESSFUL"
+    responseOTPLogin:
+      allOf:
+        - $ref: "#/components/schemas/defaultResponse"
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                tokenUuid:
+                  type: "string"
+                  example: "MemoryTokenStore:SB6RxOoYlO"
+                pubKeyIndex:
+                  type: "string"
+                  example: null
+                pubKey:
+                  type: "string"
+                  example: null
+                e2eeSid:
+                  type: "string"
+                  example: null
+                serverRandom:
+                  type: "string"
+                  example: null
+                oaepHashAlgo:
+                  type: "string"
+                  example: null
+                deliveryContact:
+                  type: "string"
+                  example: "XXXXXX5310"
+                otpRefNo:
+                  type: "string"
+                  example: "QAGV1"
+                bulkOrderId:
+                  type: "string"
+                  example: "2c5dfeb5-7eba-4df4-ac5d-051a6047d1e1"
+                mfaRefId:
+                  type: "string"
+                  example: "e6519f24-4961-4f98-8904-84ca7365bf31"
+    responseLogin:
+      allOf:
+        - $ref: "#/components/schemas/defaultResponse"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/LoginOTPResp"
+
+        # data:
+        #   type: object
+        #   $ref: '#/components/schemas/LoginOTPResp'
