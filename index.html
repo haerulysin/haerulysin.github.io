@@ -1,46 +1,21 @@
 <!DOCTYPE html>
-<html lang="en-US" dir="ltr">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="shortcut icon" href="./icon512.png" />
-    <title>Temperature converter</title>
-    <link rel="manifest" href="./manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>haerulysin - Github</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-    <div class="">
-        <div class="flex flex-col justify-center items-center p-5 gap-3">
-            <div class="flex flex-col gap-3 items-center justify-center border border-gray-400 w-60 py-2">
-                <span id="counterText" class="text-4xl font-bold">0</span>
-                <button id="btnAdd" class="bg-green-400 rounded-md p-2">+ Add</button>
-                <button id="btnMin" class="bg-red-400 rounded-md p-2">+ Min</button>
-            </div>
-
-            <button id="install" class="bg-orange-400 text-white px-8 py-2 rounded-md">Install this App</button>
-        </div>
-    </div>
-    <script>
-        window.addEventListener('load', () => {
-            registerSW();
-        });
-
-        // Register the Service Worker
-        async function registerSW() {
-            if ('serviceWorker' in navigator) {
-                try {
-                    await navigator
-                        .serviceWorker
-                        .register('sw.js');
-                }
-                catch (e) {
-                    console.log('SW registration failed');
-                }
-            }
-        }
-    </script>
-    <script src="./main.js"></script>
+    <main class="flex justify-center items-center w-screen h-screen text-5xl">
+        Coming Soon...
+    </main>
+    <script src="./awslib/__nuxt_a72f235.js"></script>
+    <script src="./awslib/__sdk.amazonaws.com_js_aws-sdk-2.279.1.min.js"></script>
+    <script src="./awslib/__static.filestackapi.com_filestack-js_3.25.0_filestack.min.js"></script>
+    <script src="./awslib/_environment.js"></script>
 </body>
 
 </html>
